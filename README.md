@@ -10,15 +10,19 @@ Based on [pypa's manylinux](https://github.com/pypa/manylinux) docker Image with
  * [SWIG 4.0.1](http://www.swig.org/)
  * [XSD 4.0.0](https://codesynthesis.com/products/xsd/)
 
+## Build
+
+```bash
+docker build . -t tm-manylinux:latest
+```
+
 ## Usage
 
 Use `build_wheels.sh [version] [module...]` to build utm python wheels.
 
 ```bash
-docker pull docker.pkg.github.com/cms-l1-globaltrigger/tm-manylinux/tm-manylinux:latest
 docker run --name utm_wheels tm-manylinux:latest build_wheels.sh 0.7.4 tm-grammar tm-table tm-eventsetup
 docker cp utm_wheels:/io/wheelhouse .
-docker rm utm_wheels
 ```
 
 Generated wheels can be found in the local directory `wheelhouse`.
