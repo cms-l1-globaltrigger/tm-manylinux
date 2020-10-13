@@ -6,7 +6,7 @@ set -e
 ARGS=($@)
 VERSION=$1
 
-PYTHON_VERSIONS="cp35-cp35m cp36-cp36m cp37-cp37m cp38-cp38"
+PYTHON_VERSIONS="cp35-cp35m cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39"
 UTM_URL="https://gitlab.cern.ch/cms-l1t-utm/utm.git"
 MODULES_BASE_URL="https://github.com/cms-l1-globaltrigger"
 
@@ -25,7 +25,7 @@ if [ $# -lt 2 ]; then
 fi
 
 # Makefile requires python >= 2.7
-export PATH=/opt/python/cp38-cp38/bin:$PATH
+export PATH=/opt/python/cp39-cp39/bin:$PATH
 
 echo "Build utm..."
 rm -rf utm-$VERSION
