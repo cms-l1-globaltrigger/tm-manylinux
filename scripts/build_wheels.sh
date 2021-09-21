@@ -24,7 +24,7 @@ if [ $# -lt 2 ]; then
   exit 1
 fi
 
-# Makefile requires python >= 2.7
+# Makefile (<=0.8.x) requires python >= 2.7
 export PATH=/opt/python/cp39-cp39/bin:$PATH
 
 echo "Build utm..."
@@ -32,6 +32,9 @@ rm -rf utm-$VERSION
 git clone $UTM_URL utm-$VERSION
 cd utm-$VERSION
 git checkout utm_$VERSION
+if [ -f configure ]; then
+  ./configure
+fi
 make clean
 make dist-clean
 make genxsd
