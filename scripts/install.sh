@@ -24,7 +24,7 @@ BOOST_MINOR=74
 BOOST_PATCH=0
 BOOST_VERSION=${BOOST_MAJOR}.${BOOST_MINOR}.${BOOST_PATCH}
 BOOST_TAG=${BOOST_MAJOR}_${BOOST_MINOR}_${BOOST_PATCH}
-curl -L https://dl.bintray.com/boostorg/release/${BOOST_VERSION}/source/boost_${BOOST_TAG}.tar.gz --output boost_${BOOST_TAG}.tar.gz
+curl -L https://boostorg.jfrog.io/artifactory/main/release/${BOOST_VERSION}/source/boost_${BOOST_TAG}.tar.gz --output boost_${BOOST_TAG}.tar.gz
 tar xzf boost_${BOOST_TAG}.tar.gz
 cd boost_${BOOST_TAG}
 ./bootstrap.sh --without-libraries=python
