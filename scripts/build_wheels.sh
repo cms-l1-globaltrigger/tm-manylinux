@@ -6,7 +6,7 @@ set -e
 ARGS=($@)
 VERSION=$1
 
-PYTHON_VERSIONS="cp35-cp35m cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39"
+PYTHON_VERSIONS="cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39"
 UTM_URL="https://gitlab.cern.ch/cms-l1t-utm/utm.git"
 MODULES_BASE_URL="https://github.com/cms-l1-globaltrigger"
 
@@ -27,18 +27,22 @@ fi
 # Makefile (<=0.8.x) requires python >= 2.7
 export PATH=/opt/python/cp39-cp39/bin:$PATH
 
-echo "Build utm..."
+echo "Clone utm $VERSION..."
 rm -rf utm-$VERSION
 git clone $UTM_URL utm-$VERSION
 cd utm-$VERSION
 git checkout utm_$VERSION
+echo "Configure utm..."
+# Backward compatibility utm < 0.9
 if [ -f configure ]; then
   ./configure
 fi
 make clean
 make dist-clean
 make genxsd
+echo "Build utm..."
 make all CPPFLAGS='-DNDEBUG -DSWIG'
+echo "Setup utm..."
 export UTM_ROOT=$(pwd)
 export UTM_XSD_DIR=$UTM_ROOT/tmXsd
 export LC_ALL="en_US.UTF-8"
@@ -52,7 +56,7 @@ cd ..
 
 for MODULE in ${ARGS[@]:1}
 do
-  echo "Build $MODULE wheels..."
+  echo "Build $MODULE $VERSION wheels..."
   rm -rf $MODULE
   git clone $MODULES_BASE_URL/$MODULE.git $MODULE
   cd $MODULE
@@ -61,7 +65,7 @@ do
   do
     /opt/python/$PYTHON_VERSION/bin/pip wheel . -w ./wheelhouse
   done
-  echo "Repair $MODULE wheels..."
+  echo "Repair $MODULE $VERSION wheels..."
   for WHEEL in ./wheelhouse/*.whl
   do
     auditwheel repair $WHEEL -w /io/wheelhouse
