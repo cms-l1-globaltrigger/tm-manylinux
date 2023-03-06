@@ -12,7 +12,7 @@ kernel-headers \
 gcc \
 gcc-c++ \
 zlib-devel \
-pcre-devel \
+pcre2-devel \
 libffi-devel \
 openssl \
 openssl-devel \

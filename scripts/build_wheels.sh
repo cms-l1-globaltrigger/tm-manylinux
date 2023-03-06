@@ -6,7 +6,7 @@ set -e
 ARGS=($@)
 VERSION=$1
 
-PYTHON_VERSIONS="cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39"
+PYTHON_VERSIONS="cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311"
 UTM_URL="https://gitlab.cern.ch/cms-l1t-utm/utm.git"
 MODULES_BASE_URL="https://github.com/cms-l1-globaltrigger"
 
@@ -58,12 +58,11 @@ for MODULE in ${ARGS[@]:1}
 do
   echo "Build $MODULE $VERSION wheels..."
   rm -rf $MODULE
-  git clone $MODULES_BASE_URL/$MODULE.git $MODULE
+  git clone $MODULES_BASE_URL/$MODULE.git -b $VERSION $MODULE
   cd $MODULE
-  git checkout $VERSION
   for PYTHON_VERSION in $PYTHON_VERSIONS
   do
-    /opt/python/$PYTHON_VERSION/bin/pip wheel . -w ./wheelhouse
+    /opt/python/$PYTHON_VERSION/bin/python -m pip wheel . -w ./wheelhouse
   done
   echo "Repair $MODULE $VERSION wheels..."
   for WHEEL in ./wheelhouse/*.whl
