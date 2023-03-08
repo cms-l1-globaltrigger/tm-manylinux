@@ -28,10 +28,11 @@ fi
 export PATH=/opt/python/cp39-cp39/bin:$PATH
 
 echo "Clone utm $VERSION..."
-rm -rf utm-$VERSION
-git clone $UTM_URL utm-$VERSION
-cd utm-$VERSION
-git checkout utm_$VERSION
+UTM_TAG=utm_$VERSION
+UTM_DIR=utm-$VERSION
+rm -rf $UTM_DIR
+git clone $UTM_URL $UTM_DIR -b $UTM_TAG
+cd $UTM_DIR
 echo "Configure utm..."
 # Backward compatibility utm < 0.9
 if [ -f configure ]; then
@@ -51,7 +52,8 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$UTM_ROOT/tmXsd
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$UTM_ROOT/tmGrammar
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$UTM_ROOT/tmTable
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$UTM_ROOT/tmEventSetup
-# make test # TODO with gcc 4.8 boost unittest 1.71 BOOST_CHECK_EQUAL_COLLECTIONS fails
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
+make test CPPFLAGS='-DNDEBUG -DSWIG'
 cd ..
 
 for MODULE in ${ARGS[@]:1}
