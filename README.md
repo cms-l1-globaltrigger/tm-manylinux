@@ -12,7 +12,7 @@ Based on [pypa's manylinux](https://github.com/pypa/manylinux) docker Image with
 additional build tools installed:
  * [Boost 1.84.0](https://www.boost.org/)
  * [Xerces-C 3.2.5](https://xerces.apache.org/xerces-c/)
- * [SWIG 4.2.0](http://www.swig.org/)
+ * [SWIG 4.1.1](http://www.swig.org/)
  * [XSD 4.0.0](https://codesynthesis.com/products/xsd/)
 
 ## Build
