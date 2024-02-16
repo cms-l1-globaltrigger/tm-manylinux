@@ -5,10 +5,11 @@ set -e
 
 ARGS=($@)
 VERSION=$1
+MODULES=${ARGS[@]:1}
 
-PYTHON_VERSIONS="cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311"
-UTM_URL="https://gitlab.cern.ch/cms-l1t-utm/utm.git"
-MODULES_BASE_URL="https://github.com/cms-l1-globaltrigger"
+PYTHON_VERSIONS=${PYTHON_VERSIONS:-"cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311 cp312-cp312"}
+UTM_URL=${UTM_URL:-"https://gitlab.cern.ch/cms-l1t-utm/utm.git"}
+MODULES_BASE_URL=${MODULES_BASE_URL:-"https://github.com/cms-l1-globaltrigger"}
 
 function usage() {
   echo "usage: $0 [version] [module ...]"
@@ -28,8 +29,8 @@ fi
 export PATH=/opt/python/cp39-cp39/bin:$PATH
 
 echo "Clone utm $VERSION..."
-UTM_TAG=utm_$VERSION
-UTM_DIR=utm-$VERSION
+UTM_TAG=${UTM_TAG:-"utm_$VERSION"}
+UTM_DIR="utm-$VERSION"
 rm -rf $UTM_DIR
 git clone $UTM_URL $UTM_DIR -b $UTM_TAG
 cd $UTM_DIR
@@ -56,7 +57,7 @@ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib
 make test CPPFLAGS='-DNDEBUG -DSWIG'
 cd ..
 
-for MODULE in ${ARGS[@]:1}
+for MODULE in ${MODULES}
 do
   echo "Build $MODULE $VERSION wheels..."
   rm -rf $MODULE
